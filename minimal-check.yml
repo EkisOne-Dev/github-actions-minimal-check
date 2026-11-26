@@ -1,0 +1,28 @@
+
+name: Minimal GitHub Actions Check
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  runner-check:
+    name: Verify GitHub-hosted Linux runner
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Report runner environment
+        run: |
+          echo "GitHub Actions runner is executing."
+          echo "Operating system: $(uname -s)"
+          echo "Architecture: $(uname -m)"
+          echo "Runner OS: $RUNNER_OS"
+          echo "Runner architecture: $RUNNER_ARCH"
+          test "$RUNNER_OS" = "Linux"
+          echo "PASS: Linux GitHub-hosted runner is available."
